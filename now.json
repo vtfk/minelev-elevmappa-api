@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "name": "minelev-my-students",
+  "alias": [
+    "my-students.innsyn.minelev.no"
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "BUDDY_SERVICE_URL": "@minelev-buddy-service-url",
+    "BUDDY_JWT_SECRET": "@minelev-jwt-secret",
+    "MOA_TENANT_ID": "@moa-tenant-id"
+  },
+  "builds": [
+    { "src": "/index", "use": "@now/node" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.js" }
+  ]
+}
