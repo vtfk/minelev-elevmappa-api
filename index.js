@@ -6,7 +6,7 @@ const { parse: urlParse } = require('url')
 const { readFileSync } = require('fs')
 const lookupBuddy = require('./lib/lookup-buddy')
 const pkg = require('./package.json')
-let config = require('./config')
+let config = {}
 
 function log (level, message) {
   if (config.debug) {
@@ -16,17 +16,18 @@ function log (level, message) {
 }
 
 async function setup (handler) {
+  const autodiscoverUrl = 'https://login.microsoftonline.com/' + process.env.MOA_TENANT_ID + '/.well-known/openid-configuration'
   try {
-    log('info', `Requesting metadata from ${config.autodiscover_url}`)
-    const { data: metadata } = await axios.get(config.autodiscover_url)
-    log('info', `Got data from ${config.autodiscover_url}`)
-    config.metadata = metadata
+    log('info', `Requesting metadata from ${autodiscoverUrl}`)
+    const { data: metadata } = await axios.get(autodiscoverUrl)
+    log('info', `Got data from ${autodiscoverUrl}`)
     log('info', `Requesting metadata from ${metadata.jwks_uri}`)
     const { data: keyData } = await axios.get(metadata.jwks_uri)
     log('info', `Got data from ${metadata.jwks_uri}`)
     config.keys = keyData.keys
     return handler
   } catch (error) {
+    log('error', error)
     throw error
   }
 }
