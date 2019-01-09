@@ -11,7 +11,7 @@
     "MOA_TENANT_ID": "@moa-tenant-id"
   },
   "builds": [
-    { "src": "/index", "use": "@now/node" }
+    { "src": "/index.js", "use": "@now/node" }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/index.js" }
