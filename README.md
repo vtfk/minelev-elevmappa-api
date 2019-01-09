@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.com/telemark/minelev-my-students.svg?branch=master)](https://travis-ci.com/telemark/minelev-my-students
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
+
 # minelev-my-students
 
 Lambda for returning all your students
