@@ -13,6 +13,10 @@ All calls requires a valid bearer token from Azure
 
 Returns an array of students
 
+### ```GET /api/students/:id```
+
+Returns an array of given student
+
 ## Setup
 
 You'll need an azure tenant and a jwt and endpoint url for your Buddy service.
