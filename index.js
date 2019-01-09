@@ -6,16 +6,13 @@ const { parse: urlParse } = require('url')
 const { readFileSync } = require('fs')
 const lookupBuddy = require('./lib/lookup-buddy')
 const pkg = require('./package.json')
-let config = {}
 
 function log (level, message) {
-  if (config.debug) {
-    const formatedMessage = typeof message === 'object' ? JSON.stringify(message) : message
-    console.log(`[${level.toUpperCase()}] ${new Date().toUTCString()} ${pkg.name} - ${pkg.version}: ${formatedMessage}`)
-  }
+  const formatedMessage = typeof message === 'object' ? JSON.stringify(message) : message
+  console.log(`[${level.toUpperCase()}] ${new Date().toUTCString()} ${pkg.name} - ${pkg.version}: ${formatedMessage}`)
 }
 
-async function setup (handler) {
+async function getKeys () {
   const autodiscoverUrl = 'https://login.microsoftonline.com/' + process.env.MOA_TENANT_ID + '/.well-known/openid-configuration'
   try {
     log('info', `Requesting metadata from ${autodiscoverUrl}`)
@@ -24,17 +21,17 @@ async function setup (handler) {
     log('info', `Requesting metadata from ${metadata.jwks_uri}`)
     const { data: keyData } = await axios.get(metadata.jwks_uri)
     log('info', `Got data from ${metadata.jwks_uri}`)
-    config.keys = keyData.keys
-    return handler
+    return keyData.keys
   } catch (error) {
     log('error', error)
     throw error
   }
 }
 
-function validateToken (token) {
+async function validateToken (token) {
   const decodedToken = jwt.decode(token, { complete: true })
-  const { x5c } = config.keys.find(key => decodedToken.header.x5t === key.x5t)
+  const keys = await getKeys()
+  const { x5c } = keys.find(key => decodedToken.header.x5t === key.x5t)
   const pubCert = `-----BEGIN CERTIFICATE-----\n${x5c}\n-----END CERTIFICATE-----`
   let verifiedToken
   try {
@@ -45,23 +42,21 @@ function validateToken (token) {
   return verifiedToken
 }
 
-async function getMyStudents (user) {
-  const query = {
-    userId: user,
-    url: `${process.env.BUDDY_SERVICE_URL}/students?name=*`
-  }
-  return lookupBuddy(query)
+function fixUpn (upn) {
+  const list = upn.split('@')
+  return list[0]
 }
 
-module.exports = setup((request, response) => {
+module.exports = async (request, response) => {
   const { pathname } = urlParse(request.url, true)
   if (pathname === '/api/students') {
     const bearerToken = request.headers.authorization
     if (bearerToken) {
       const token = bearerToken.replace('Bearer ', '')
-      const validatedToken = validateToken(token)
+      const validatedToken = await validateToken(token)
       if (validatedToken) {
-        return getMyStudents(validatedToken.upn.replace('@t-fk.no', ''))
+        log('info', `lookup buddy for ${validatedToken.upn}`)
+        return lookupBuddy(fixUpn(validatedToken.upn))
       } else {
         send(response, 401, { message: 'invalid token' })
       }
@@ -74,4 +69,4 @@ module.exports = setup((request, response) => {
     const readme = readFileSync(`${__dirname}/README.md`, 'utf-8')
     send(response, 200, md.render(readme))
   }
-})
+}
