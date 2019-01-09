@@ -1,6 +1,6 @@
 {
   "name": "minelev-my-students",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "micro azure oidc auth minelev",
   "main": "index.js",
   "scripts": {
