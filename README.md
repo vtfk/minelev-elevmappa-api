@@ -15,7 +15,7 @@ Returns an array of students
 
 ### ```GET /api/students/:id```
 
-Returns an array of given student
+Returns an object of given student with available documents
 
 ## Setup
 
