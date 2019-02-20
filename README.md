@@ -148,6 +148,9 @@ Environment
 BUDDY_SERVICE_URL=https://buddy.service.io
 BUDDY_JWT_SECRET=Louie Louie, oh no, I got to go Louie Louie, oh no, I got to go
 MOA_TENANT_ID=your-azure-tenant
+P360_WS_BASE_URL=http://siweb.domain.no:8088/SI.WS.Core/SIF/
+P360_WS_USERNAME=domain/username
+P360_WS_PASSWORD=password
 ```
 
 ## Related
