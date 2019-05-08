@@ -1,5 +1,5 @@
 {
-  "name": "minelev-my-students",
+  "name": "minelev-elevmappa-api",
   "version": "1.0.1",
   "description": "micro azure oidc auth minelev",
   "main": "index.js",
@@ -52,6 +52,7 @@
   "dependencies": {
     "@alheimsins/p360": "1.0.0",
     "axios": "v0.19.0-beta.1",
+    "axios-cache-adapter": "2.3.0",
     "cors": "2.8.5",
     "finalhandler": "1.1.1",
     "jsonwebtoken": "8.5.1",
