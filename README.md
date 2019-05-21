@@ -151,6 +151,9 @@ MOA_TENANT_ID=your-azure-tenant
 P360_WS_BASE_URL=http://siweb.domain.no:8088/SI.WS.Core/SIF/
 P360_WS_USERNAME=domain/username
 P360_WS_PASSWORD=password
+PAPERTRAIL_HOST=example.papertrailapp.com
+PAPERTRAIL_PORT=port
+PAPERTRAIL_HOSTNAME=minelev-elevmappa
 ```
 
 ## Related
