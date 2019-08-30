@@ -20,7 +20,7 @@ router.get('/', handler.getFrontpage)
 router.get('/favicon.ico', handler.getFavicon)
 router.get('/api/students/:id', handler.getStudent)
 router.get('/api/students', handler.getStudents)
-router.get('/api/files/:id', handler.getFile)
+router.get('/api/files/:id/:recno', handler.getFile)
 
 module.exports = (request, response) => {
   router(request, response, finalhandler(request, response))
