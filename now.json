@@ -1,14 +1,15 @@
 {
   "version": 2,
-  "name": "minelev-my-students",
+  "name": "minelev-elevmappa-api",
   "alias": [
-    "my-students.innsyn.minelev.no"
+    "api.elevmappa.minelev.no"
   ],
   "env": {
     "NODE_ENV": "production",
     "BUDDY_SERVICE_URL": "@minelev-buddy-service-url",
     "BUDDY_JWT_SECRET": "@minelev-jwt-secret",
-    "MOA_TENANT_ID": "@moa-tenant-id"
+    "MOA_TENANT_ID": "@moa-tenant-id",
+    "MOA_APP_ID": "@moa-app-id"
   },
   "builds": [
     { "src": "/index.js", "use": "@now/node" }
